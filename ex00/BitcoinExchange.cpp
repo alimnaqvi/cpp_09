@@ -118,14 +118,21 @@ bool isValidDate( const std::string& date )
     std::size_t remaining_pos;
     try
     {
+        // First 4 characters in the string must be numbers (year), followed by '-'
         [[maybe_unused]] auto year{ std::stoi( date.substr( 0, 4 ), &remaining_pos ) };
         if ( date[remaining_pos] != '-' )
             return false;
-        auto month{ std::stoi( date.substr( remaining_pos + 1, 2 ), &remaining_pos ) };
-        if ( date[remaining_pos] != '-' || month < 1 || month > 12 )
+        
+        // Next 2 characters in the string must be numbers (month), followed by '-'
+        auto date_chopped_year{date.substr( remaining_pos + 1 )};
+        auto month{ std::stoi( date_chopped_year, &remaining_pos ) };
+        if ( date_chopped_year[remaining_pos] != '-' || month < 1 || month > 12 )
             return false;
-        auto day{ std::stoi( date.substr( remaining_pos + 1, 2 ), &remaining_pos ) };
-        if ( remaining_pos != date.length() || day < 1 || day > 31 )
+        
+        // Next 2 characters in the string must be numbers (day), followed by nothing
+        auto date_chopped_month{date_chopped_year.substr( remaining_pos + 1 )};
+        auto day{ std::stoi( date_chopped_month, &remaining_pos ) };
+        if ( remaining_pos != date_chopped_month.length() || day < 1 || day > 31 )
             return false;
     }
     catch ( const std::exception& )
