@@ -45,10 +45,11 @@ BitcoinExchange::BitcoinExchange( std::istream& input_stream )
             throw BadDatabaseFormat( "Invalid database CSV file. Invalid date on line " + std::to_string( i ) + ": `" +
                                      line + '`' );
 
+        auto        price_str{ line.substr( comma_pos + 1 ) };
         std::size_t remaining_pos{};
         try
         {
-            float price{ std::stof( line.substr( comma_pos + 1 ), &remaining_pos ) };
+            float price{ std::stof( price_str, &remaining_pos ) };
             m_btc_database[date] = price;
         }
         catch ( const std::exception& )
@@ -57,7 +58,7 @@ BitcoinExchange::BitcoinExchange( std::istream& input_stream )
                                      std::to_string( i ) + ": `" + line + '`' );
         }
 
-        if ( remaining_pos != line.length() )
+        if ( remaining_pos != price_str.length() )
             throw BadDatabaseFormat( "Invalid database CSV file. Invalid (extra) data on line " + std::to_string( i ) +
                                      ": `" + line + '`' );
     }
