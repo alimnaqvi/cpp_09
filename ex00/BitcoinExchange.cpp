@@ -24,20 +24,20 @@ BitcoinExchange::~BitcoinExchange()
 // Constructor to initialize the database with an input csv; DatabaseFormatError exception on error
 BitcoinExchange::BitcoinExchange( std::istream& input_stream )
 {
-    int i{ 1 };
+    int i{ 0 };
 
     for ( std::string line; std::getline( input_stream, line ); )
     {
+        // Skip header row
+        if ( ++i == 1 )
+            continue;
+
         trimWhitespace( line );
 
         auto comma_pos{ line.find( ',' ) };
         if ( comma_pos == std::string::npos )
             throw BadDatabaseFormat( "Invalid database CSV file. Error looking for comma on line " +
                                      std::to_string( i ) + ": `" + line + '`' );
-
-        // Skip header row
-        if ( i == 1 )
-            continue;
 
         auto date{ line.substr( 0, comma_pos ) };
         trimWhitespace( date );
@@ -60,8 +60,6 @@ BitcoinExchange::BitcoinExchange( std::istream& input_stream )
         if ( remaining_pos != line.length() )
             throw BadDatabaseFormat( "Invalid database CSV file. Invalid (extra) data on line " + std::to_string( i ) +
                                      ": `" + line + '`' );
-
-        i++;
     }
 }
 
