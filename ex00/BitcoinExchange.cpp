@@ -71,6 +71,9 @@ float BitcoinExchange::getPriceOnDate( const std::string& date )
     if ( !isValidDate( date ) )
         throw InvalidDate( date + " is not a valid date" );
 
+    if ( m_btc_database.empty() )
+        throw RetrievalError( "Database is empty" );
+
     // Find the first element with key not less than `date`
     auto it{ m_btc_database.lower_bound( date ) };
 
@@ -105,6 +108,16 @@ BitcoinExchange::InvalidDate::InvalidDate( std::string_view error )
 }
 
 const char* BitcoinExchange::InvalidDate::what() const noexcept
+{
+    return m_error.c_str();
+}
+
+BitcoinExchange::RetrievalError::RetrievalError( std::string_view error )
+    : m_error{ error }
+{
+}
+
+const char* BitcoinExchange::RetrievalError::what() const noexcept
 {
     return m_error.c_str();
 }

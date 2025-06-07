@@ -66,15 +66,15 @@ class BitcoinExchange
         const std::string m_error{};
     };
 
-    // class RetrievalError : public std::exception
-    // {
-    //   public:
-    //     RetrievalError( std::string_view error );
-    //     const char* what() const noexcept override;
+    class RetrievalError : public std::exception
+    {
+      public:
+        RetrievalError( std::string_view error );
+        const char* what() const noexcept override;
 
-    //   private:
-    //     const std::string m_error{};
-    // };
+      private:
+        const std::string m_error{};
+    };
 
   private:
     std::map<std::string, float> m_btc_database;
