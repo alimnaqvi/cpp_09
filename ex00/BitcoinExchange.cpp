@@ -24,7 +24,7 @@ BitcoinExchange::~BitcoinExchange()
 // Constructor to initialize the database with an input csv; DatabaseFormatError exception on error
 BitcoinExchange::BitcoinExchange( std::istream& input_stream )
 {
-    int i {1};
+    int i{ 1 };
 
     for ( std::string line; std::getline( input_stream, line ); )
     {
@@ -32,16 +32,18 @@ BitcoinExchange::BitcoinExchange( std::istream& input_stream )
 
         auto comma_pos{ line.find( ',' ) };
         if ( comma_pos == std::string::npos )
-            throw BadDatabaseFormat( "Invalid database CSV file. Error looking for comma on line " + std::to_string(i) + ": `" + line + '`' );
+            throw BadDatabaseFormat( "Invalid database CSV file. Error looking for comma on line " +
+                                     std::to_string( i ) + ": `" + line + '`' );
 
         // Skip header row
-        if (i == 1)
+        if ( i == 1 )
             continue;
 
         auto date{ line.substr( 0, comma_pos ) };
         trimWhitespace( date );
         if ( !isValidDate( date ) )
-            throw BadDatabaseFormat( "Invalid database CSV file. Invalid date on line " + std::to_string(i) + ": `" + line + '`' );
+            throw BadDatabaseFormat( "Invalid database CSV file. Invalid date on line " + std::to_string( i ) + ": `" +
+                                     line + '`' );
 
         std::size_t remaining_pos{};
         try
@@ -51,12 +53,13 @@ BitcoinExchange::BitcoinExchange( std::istream& input_stream )
         }
         catch ( const std::exception& )
         {
-            throw BadDatabaseFormat( "Invalid database CSV file. Error converting value to float on line " + std::to_string(i) + ": `" + line +
-                                     '`' );
+            throw BadDatabaseFormat( "Invalid database CSV file. Error converting value to float on line " +
+                                     std::to_string( i ) + ": `" + line + '`' );
         }
 
         if ( remaining_pos != line.length() )
-            throw BadDatabaseFormat( "Invalid database CSV file. Invalid (extra) data on line " + std::to_string(i) + ": `" + line + '`' );
+            throw BadDatabaseFormat( "Invalid database CSV file. Invalid (extra) data on line " + std::to_string( i ) +
+                                     ": `" + line + '`' );
 
         i++;
     }
@@ -68,22 +71,20 @@ float BitcoinExchange::getPriceOnDate( const std::string& date )
     if ( !isValidDate( date ) )
         throw InvalidDate( date + " is not a valid date" );
 
-    if ( m_btc_database.find( date ) != m_btc_database.end() )
-        return m_btc_database[date];
-    else
-    {
-        if ( date < m_btc_database.begin()->first )
-            throw InvalidDate( date + " is before the earliest date in the datebase" );
+    // Find the first element with key not less than `date`
+    auto it{ m_btc_database.lower_bound( date ) };
 
-        for ( auto it{ m_btc_database.begin() }; it != m_btc_database.end(); it++ )
-        {
-            auto next{ std::next( it ) };
-            if ( next == m_btc_database.end() || next->first > date )
-                return m_btc_database[it->first];
-        }
+    // Exact match has been found
+    if ( it != m_btc_database.end() && it->first == date )
+        return it->second;
 
-        throw InvalidDate( "A strange error occurred when retrieving price closest to " + date );
-    }
+    // Earlier date is not available
+    if ( it == m_btc_database.begin() )
+        throw InvalidDate( date + " is before the earliest date in the datebase" );
+
+    // Go to previous date (map is ordered)
+    --it;
+    return it->second;
 }
 
 // Exception classes
@@ -122,15 +123,15 @@ bool isValidDate( const std::string& date )
         [[maybe_unused]] auto year{ std::stoi( date.substr( 0, 4 ), &remaining_pos ) };
         if ( date[remaining_pos] != '-' )
             return false;
-        
+
         // Next 2 characters in the string must be numbers (month), followed by '-'
-        auto date_chopped_year{date.substr( remaining_pos + 1 )};
+        auto date_chopped_year{ date.substr( remaining_pos + 1 ) };
         auto month{ std::stoi( date_chopped_year, &remaining_pos ) };
         if ( date_chopped_year[remaining_pos] != '-' || month < 1 || month > 12 )
             return false;
-        
+
         // Next 2 characters in the string must be numbers (day), followed by nothing
-        auto date_chopped_month{date_chopped_year.substr( remaining_pos + 1 )};
+        auto date_chopped_month{ date_chopped_year.substr( remaining_pos + 1 ) };
         auto day{ std::stoi( date_chopped_month, &remaining_pos ) };
         if ( remaining_pos != date_chopped_month.length() || day < 1 || day > 31 )
             return false;

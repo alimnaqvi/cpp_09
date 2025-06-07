@@ -1,6 +1,6 @@
 NAME = btc
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -MMD -MP
+CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -MMD -MP# -g -fsanitize=address
 
 SRCS = main.cpp BitcoinExchange.cpp
 OBJ_DIR = temp_files
