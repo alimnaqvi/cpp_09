@@ -1,8 +1,8 @@
-NAME = btc
+NAME = RPN
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -MMD -MP
 
-SRCS = main.cpp BitcoinExchange.cpp
+SRCS = main.cpp RPN.cpp
 OBJ_DIR = temp_files
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
 DEPENDS = $(OBJS:.o=.d)
