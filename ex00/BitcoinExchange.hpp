@@ -3,31 +3,10 @@
 
 #include <algorithm>
 #include <exception>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <map>
 #include <string>
-
-// class Date
-// {
-//   public:
-//     // OCF
-//     Date();
-//     Date( const Date& other );
-//     Date& operator=( const Date& other );
-//     ~Date();
-
-//     // Takes date string in Year-Month-Day format; InvalidDate exception otherwise
-//     Date(std::string_view date_str);
-
-//     // Getter
-//     std::string getDateString();
-
-//   private:
-//     int m_year;
-//     int m_month;
-//     int m_day;
-// };
 
 class BitcoinExchange
 {

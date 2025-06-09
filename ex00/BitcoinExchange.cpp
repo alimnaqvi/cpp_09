@@ -56,7 +56,7 @@ BitcoinExchange::BitcoinExchange( std::istream& input_stream )
             throw BadDatabaseFormat( "Invalid database CSV file. Invalid date on line " + std::to_string( line_num ) +
                                      ": `" + line + '`' );
 
-        // Check if price/exchange_rate is valid
+        // Check if price/exchange_rate is valid and add to map
         std::size_t remaining_pos{};
         try
         {

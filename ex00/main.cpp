@@ -1,4 +1,5 @@
 #include "BitcoinExchange.hpp"
+#include <iomanip>
 
 void generateResults( const BitcoinExchange& btc, std::ifstream& input_file )
 {
@@ -40,10 +41,10 @@ void generateResults( const BitcoinExchange& btc, std::ifstream& input_file )
 
         // Check if value / btc amount is valid
         std::size_t remaining_pos{};
-        float amount;
+        float       amount;
         try
         {
-            amount = std::stof( amount_str, &remaining_pos ) ;
+            amount = std::stof( amount_str, &remaining_pos );
         }
         catch ( const std::exception& )
         {
@@ -66,7 +67,16 @@ void generateResults( const BitcoinExchange& btc, std::ifstream& input_file )
         }
 
         // Print output based on datebase exchange rates
-        std::cout << "Date:\t" << date << "\t|\tbtc amount:\t" << amount << "\t|\tPrice of amount:\t" << amount * btc.getPriceOnDate(date) << '\n';
+        try
+        {
+            auto price_on_date{ amount * btc.getPriceOnDate( date ) };
+            std::cout << "Date:\t" << date << "\t|\tbtc amount:\t" << amount << "\t|\tPrice of amount:\t" << std::fixed
+                      << std::setprecision( 2 ) << price_on_date << '\n';
+        }
+        catch ( const std::exception& e )
+        {
+            std::cerr << "Error: " << e.what() << ": Line " << line_num << ": `" << line << "`\n";
+        }
     }
 }
 
