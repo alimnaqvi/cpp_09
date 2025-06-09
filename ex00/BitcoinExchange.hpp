@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <exception>
 #include <iostream>
-#include <istream>
+#include <fstream>
 #include <map>
 #include <string>
 
@@ -42,7 +42,7 @@ class BitcoinExchange
     BitcoinExchange( std::istream& input_stream );
 
     // Get price on closest lower date. Throw InvalidDate exception on error
-    float getPriceOnDate( const std::string& date );
+    float getPriceOnDate( const std::string& date ) const;
 
     // Exception classes
 

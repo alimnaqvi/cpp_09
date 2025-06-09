@@ -24,28 +24,39 @@ BitcoinExchange::~BitcoinExchange()
 // Constructor to initialize the database with an input csv; DatabaseFormatError exception on error
 BitcoinExchange::BitcoinExchange( std::istream& input_stream )
 {
-    int i{ 0 };
+    int line_num{ 0 };
 
     for ( std::string line; std::getline( input_stream, line ); )
     {
-        // Skip header row
-        if ( ++i == 1 )
-            continue;
+        // Current line number
+        ++line_num;
 
         trimWhitespace( line );
 
+        // Look for comma
         auto comma_pos{ line.find( ',' ) };
         if ( comma_pos == std::string::npos )
             throw BadDatabaseFormat( "Invalid database CSV file. Error looking for comma on line " +
-                                     std::to_string( i ) + ": `" + line + '`' );
+                                     std::to_string( line_num ) + ": `" + line + '`' );
 
+        // Extract date (substring before comma)
         auto date{ line.substr( 0, comma_pos ) };
         trimWhitespace( date );
-        if ( !isValidDate( date ) )
-            throw BadDatabaseFormat( "Invalid database CSV file. Invalid date on line " + std::to_string( i ) + ": `" +
-                                     line + '`' );
 
-        auto        price_str{ line.substr( comma_pos + 1 ) };
+        // Extract price/exchange_rate (substring after comma)
+        auto price_str{ line.substr( comma_pos + 1 ) };
+        trimWhitespace( price_str );
+
+        // Skip header row
+        if ( line_num == 1 && date == "date" && price_str == "exchange_rate" )
+            continue;
+
+        // Check if date is valid
+        if ( !isValidDate( date ) )
+            throw BadDatabaseFormat( "Invalid database CSV file. Invalid date on line " + std::to_string( line_num ) +
+                                     ": `" + line + '`' );
+
+        // Check if price/exchange_rate is valid
         std::size_t remaining_pos{};
         try
         {
@@ -55,17 +66,17 @@ BitcoinExchange::BitcoinExchange( std::istream& input_stream )
         catch ( const std::exception& )
         {
             throw BadDatabaseFormat( "Invalid database CSV file. Error converting value to float on line " +
-                                     std::to_string( i ) + ": `" + line + '`' );
+                                     std::to_string( line_num ) + ": `" + line + '`' );
         }
 
         if ( remaining_pos != price_str.length() )
-            throw BadDatabaseFormat( "Invalid database CSV file. Invalid (extra) data on line " + std::to_string( i ) +
-                                     ": `" + line + '`' );
+            throw BadDatabaseFormat( "Invalid database CSV file. Invalid (extra) data on line " +
+                                     std::to_string( line_num ) + ": `" + line + '`' );
     }
 }
 
 // Get price on closest lower date. Throw InvalidDate exception on error
-float BitcoinExchange::getPriceOnDate( const std::string& date )
+float BitcoinExchange::getPriceOnDate( const std::string& date ) const
 {
     if ( !isValidDate( date ) )
         throw InvalidDate( date + " is not a valid date" );
