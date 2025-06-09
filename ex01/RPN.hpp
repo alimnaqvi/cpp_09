@@ -1,8 +1,8 @@
 #ifndef RPN_HPP
 #define RPN_HPP
 
-#include <stack>
 #include <exception>
+#include <stack>
 #include <string>
 
 class RPN
@@ -15,7 +15,7 @@ class RPN
     ~RPN();
 
     // Key member function
-    int evaluate(const std::string& expression);
+    int evaluate( const std::string& expression );
 
     // Exception classes
 
@@ -44,7 +44,7 @@ class RPN
 };
 
 // Helper functions
-bool isOperator(const char c);
-bool isSpace(const char c);
+bool isOperator( const char c );
+bool isSpace( const char c );
 
 #endif /* RPN_HPP */
