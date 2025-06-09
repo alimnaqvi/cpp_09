@@ -122,15 +122,15 @@ int RPN::evaluate( const std::string& expression )
         }
     }
 
-    // Nothing should be remaining in the cur_expression but just to be sure
+    // Nothing should be remaining in the cur_expression
     if ( !cur_expression.empty() )
-        throw InvalidExpression( "Something went wrong (unevaluated string) while evaluating expression: " +
-                                 expression );
+        throw InvalidExpression( "Expression could not be evaluated. " + expression );
 
-    // Stack size should be 1 and that is our result
+    // Stack size should be 1, otherwise the expression is invalid
     if ( m_nums.size() != 1 )
-        throw InvalidExpression( "Something went wrong (stack size) while evaluating expression: " + expression );
+        throw InvalidExpression( "Invalid expression (incorrect number of operators): " + expression );
 
+    // Remaining number in the stack is our result
     int result{ m_nums.top() };
     m_nums.pop();
 

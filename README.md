@@ -8,3 +8,7 @@ Core concepts learned and applied:
   - Iterating over map elements and accessing key and value
   - Usage of subscript operator for map and invalidation of its iterator
   - Map member functions such as lower_bound()
+- Exercise 01: Reverse Polish Notation
+  - Coming up with a stack-based algorithm to evaluate RPN expressions
+- Exercise 02: PmergeMe
+  - 
