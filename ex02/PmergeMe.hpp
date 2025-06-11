@@ -7,6 +7,10 @@
 #include <list>
 #include <string>
 #include <vector>
+#include <utility>
+#include <algorithm>
+
+using Pair = std::pair<int, int>;
 
 class PmergeMe
 {
@@ -33,6 +37,7 @@ class PmergeMe
     };
 };
 
+// Can be converted into two functions: std::vector one utilizes argc to reserve
 // To convert argv into std::vector or std::list
 template <typename T>
 T parseArgs( char** argv )
@@ -59,5 +64,11 @@ T parseArgs( char** argv )
 
     return container;
 }
+
+// Create a vector of pairs, first element is always >= the second, last odd element is not paired
+std::vector<Pair> createSortedPairs(const std::vector<int>& vec);
+
+// Use merge sort to sort pair_vec according to their larger (first) element
+std::vector<Pair> mergeSortPairs( const std::vector<Pair>& pairs_vec );
 
 #endif /* PMERGEME_HPP */
