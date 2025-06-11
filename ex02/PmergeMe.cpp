@@ -78,9 +78,9 @@ std::vector<Pair> createSortedPairs( const std::vector<int>& vec )
 {
     std::vector<Pair> pairs_vec;
 
-    for ( auto it{ vec.begin() }; it + 1 != vec.end(); ++it )
+    for ( size_t i{ 1 }; i < vec.size(); i += 2 )
     {
-        pairs_vec.emplace_back( std::max( *it, *( it + 1 ) ), std::min( *it, *( it + 1 ) ) );
+        pairs_vec.emplace_back( std::max( vec[i - 1], vec[i] ), std::min( vec[i - 1], vec[i] ) );
     }
 
     return pairs_vec;
