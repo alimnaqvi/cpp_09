@@ -8,16 +8,49 @@ std::vector<int> PmergeMe::sortVector( char** argv )
 
     // Sorting logic
 
+    // Nothing to be done if already sorted
     if ( std::is_sorted( vec.begin(), vec.end() ) )
         return vec;
 
+    // Create pairs (leave out the odd one for now)
     std::vector<Pair> pairs_vec{ createSortedPairs( vec ) };
 
+    // Merge sort the pairs
     pairs_vec = mergeSortPairs( pairs_vec );
 
-    // Insertion (don't forget the left out odd)
+    // Insertion
+    std::vector<int> sorted_vec;
+    sorted_vec.reserve( vec.size() );
 
-    return vec;
+    // First insert the smaller of the first pair
+    sorted_vec.push_back( pairs_vec[0].second );
+
+    // Then insert all greaters of the pairs because they are already sorted
+    for ( auto& elem : pairs_vec )
+    {
+        sorted_vec.push_back( elem.first );
+    }
+
+    // Lastly, use binary search to insert the remaining numbers into correct positions
+    for ( auto it{ pairs_vec.begin() + 1 }; it != pairs_vec.end(); ++it )
+    {
+        if ( sorted_vec.size() == vec.size() )
+            break;
+
+        auto insertion_pos{ std::lower_bound( sorted_vec.begin(), sorted_vec.end(), ( *it ).second ) };
+
+        sorted_vec.insert( insertion_pos, ( *it ).second );
+    }
+
+    // Don't forget the left out odd
+    if (vec.size() % 2 != 0)
+    {
+        auto insertion_pos{ std::lower_bound( sorted_vec.begin(), sorted_vec.end(), vec.back() ) };
+
+        sorted_vec.insert( insertion_pos, vec.back() );
+    }
+
+    return sorted_vec;
 }
 
 std::list<int> PmergeMe::sortList( char** argv )
