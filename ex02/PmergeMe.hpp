@@ -1,14 +1,16 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
 
-#include <cstring>
+#include <algorithm>
+#include <chrono>  // std::chrono functions in Timer
+#include <cstring> // std::strlen
 #include <exception>
+#include <iomanip> // std::fixed, std::setprecision
 #include <iostream>
 #include <list>
 #include <string>
+#include <utility> // std::pair
 #include <vector>
-#include <utility>
-#include <algorithm>
 
 using Pair = std::pair<int, int>;
 
@@ -34,6 +36,28 @@ class PmergeMe
 
       private:
         const std::string m_error{};
+    };
+
+    // Timer class
+    class Timer
+    {
+      private:
+        // Type aliases to make accessing nested type easier
+        using Clock       = std::chrono::steady_clock;
+        using MicroSecond = std::chrono::duration<double, std::ratio<1, 1000000>>;
+
+        std::chrono::time_point<Clock> m_beginning{ Clock::now() };
+
+      public:
+        void reset()
+        {
+            m_beginning = Clock::now();
+        }
+
+        double elapsed() const
+        {
+            return std::chrono::duration_cast<MicroSecond>( Clock::now() - m_beginning ).count();
+        }
     };
 };
 
@@ -66,7 +90,7 @@ T parseArgs( char** argv )
 }
 
 // Create a vector of pairs, first element is always >= the second, last odd element is not paired
-std::vector<Pair> createSortedPairs(const std::vector<int>& vec);
+std::vector<Pair> createSortedPairs( const std::vector<int>& vec );
 
 // Use merge sort to sort pair_vec according to their larger (first) element
 std::vector<Pair> mergeSortPairs( const std::vector<Pair>& pairs_vec );

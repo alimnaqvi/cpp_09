@@ -12,26 +12,23 @@ int main( int argc, char** argv )
 
     try
     {
-        // Type aliases to make accessing nested type easier
-        using Clock       = std::chrono::steady_clock;
-        using MicroSecond = std::chrono::duration<double, std::ratio<1, 1000000>>;
-
-        std::chrono::time_point<Clock> beginning{ Clock::now() };
+        // Instantiating Timer class starts the timer
+        PmergeMe::Timer timer;
 
         // Sort using std::vector
         std::vector vec{ PmergeMe::sortVector( argv ) };
 
         // Calculate time to sort using std::vector
-        auto time_vec_sort{ std::chrono::duration_cast<MicroSecond>( Clock::now() - beginning ).count() };
+        auto time_vec_sort{ timer.elapsed() };
 
-        // Reset the clock
-        beginning = Clock::now();
+        // Reset the timer
+        timer.reset();
 
         // Sort using std::list
         std::list lst{ PmergeMe::sortList( argv ) };
 
         // Calculate time to sort using std::list
-        auto time_list_sort{ std::chrono::duration_cast<MicroSecond>( Clock::now() - beginning ).count() };
+        auto time_list_sort{ timer.elapsed() };
 
         // Print unsorted numbers
         std::cout << "Before: ";
