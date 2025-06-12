@@ -16,7 +16,7 @@ int main( int argc, char** argv )
         PmergeMe::Timer timer;
 
         // Sort using std::vector
-        std::vector vec{ PmergeMe::sortVector( argv ) };
+        std::vector vec{ PmergeMe::sortVector( argc, argv ) };
 
         // Calculate time to sort using std::vector
         auto time_vec_sort{ timer.elapsed() };
@@ -25,7 +25,7 @@ int main( int argc, char** argv )
         timer.reset();
 
         // Sort using std::list
-        std::list lst{ PmergeMe::sortList( argv ) };
+        std::list lst{ PmergeMe::sortList( argc, argv ) };
 
         // Calculate time to sort using std::list
         auto time_list_sort{ timer.elapsed() };

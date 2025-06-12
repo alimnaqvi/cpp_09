@@ -131,8 +131,8 @@ std::vector<int> parseArgsVec( int argc, char** argv )
         {
             vec.push_back( std::stoi( argv[i], &remaining_pos ) );
 
-            // The arguments must be fully converted to integers to be considered valid
-            if ( remaining_pos != std::strlen( argv[i] ) )
+            // The arguments must be fully converted to (positive) integers to be considered valid
+            if ( remaining_pos != std::strlen( argv[i] ) || vec.back() < 0 )
                 throw std::exception();
         }
     }
@@ -288,8 +288,8 @@ std::list<int> parseArgsList( int argc, char** argv )
         {
             lst.push_back( std::stoi( argv[i], &remaining_pos ) );
 
-            // The arguments must be fully converted to integers to be considered valid
-            if ( remaining_pos != std::strlen( argv[i] ) )
+            // The arguments must be fully converted to (positive) integers to be considered valid
+            if ( remaining_pos != std::strlen( argv[i] ) || lst.back() < 0 )
                 throw std::exception();
         }
     }
