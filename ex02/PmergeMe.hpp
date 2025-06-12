@@ -24,8 +24,8 @@ class PmergeMe
     ~PmergeMe()                                  = default;
 
     // Key member functions
-    static std::vector<int> sortVector( char** argv );
-    static std::list<int>   sortList( char** argv );
+    static std::vector<int> sortVector( int argc, char** argv );
+    static std::list<int>   sortList( int argc, char** argv );
 
     // Exception class
     class InvalidArgument : public std::exception
@@ -61,41 +61,32 @@ class PmergeMe
     };
 };
 
-// Can be converted into two functions: std::vector one utilizes argc to reserve
-// To convert argv into std::vector or std::list
-template <typename T>
-T parseArgs( char** argv )
-{
-    T container;
+/*----------------Helper functions for vector sorting----------------*/
 
-    try
-    {
-        std::size_t remaining_pos;
+// Convert argv into std::vector; throw on invalid input
+std::vector<int> parseArgsVec( int argc, char** argv );
 
-        for ( int i{ 1 }; argv[i]; ++i )
-        {
-            container.push_back( std::stoi( argv[i], &remaining_pos ) );
-
-            // The arguments must be fully converted to integers to be considered valid
-            if ( remaining_pos != std::strlen( argv[i] ) )
-                throw std::exception();
-        }
-    }
-    catch ( const std::exception& )
-    {
-        throw PmergeMe::InvalidArgument( "The list of numbers provided as arguments is not valid." );
-    }
-
-    return container;
-}
-
-// Create a vector of pairs, first element is always >= the second, last odd element is not paired
+// Create a vector of pairs, first element is always >= the second; last odd element is not paired
 std::vector<Pair> createSortedPairs( const std::vector<int>& vec );
 
 // Use merge sort to sort pair_vec according to their larger (first) element
 std::vector<Pair> mergeSortPairs( const std::vector<Pair>& pairs_vec );
 
 // Create a vector of indexes (0-based) based on Jacobsthal numbers, similar to FJ algorithm
-std::vector<std::size_t> createJacobsthalOrder(std::size_t size);
+std::vector<std::size_t> createJacobsthalOrderVec(std::size_t size);
+
+/*----------------Helper functions for list sorting----------------*/
+
+// Convert argv into std::vector; throw on invalid input
+std::list<int> parseArgsList( int argc, char** argv );
+
+// Create a list of pairs, first element is always >= the second; last odd element is not paired
+std::list<Pair> createSortedPairs( const std::list<int>& lst );
+
+// Use merge sort to sort pair_vec according to their larger (first) element
+std::list<Pair> mergeSortPairs( const std::list<Pair>& pairs_vec );
+
+// Create a list of indexes (0-based) based on Jacobsthal numbers, similar to FJ algorithm
+std::list<std::size_t> createJacobsthalOrderList(std::size_t size);
 
 #endif /* PMERGEME_HPP */
