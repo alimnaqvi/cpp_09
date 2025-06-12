@@ -51,7 +51,6 @@ std::vector<int> PmergeMe::sortVector( int argc, char** argv )
 }
 
 // Main sorting logic with std::list
-
 std::list<int> PmergeMe::sortList( int argc, char** argv )
 {
     std::list lst{ parseArgsList( argc, argv ) };

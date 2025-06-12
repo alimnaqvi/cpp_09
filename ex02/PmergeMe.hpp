@@ -73,7 +73,7 @@ std::vector<Pair> createSortedPairs( const std::vector<int>& vec );
 std::vector<Pair> mergeSortPairs( const std::vector<Pair>& pairs_vec );
 
 // Create a vector of indexes (0-based) based on Jacobsthal numbers, similar to FJ algorithm
-std::vector<std::size_t> createJacobsthalOrderVec(std::size_t size);
+std::vector<std::size_t> createJacobsthalOrderVec( std::size_t size );
 
 /*----------------Helper functions for list sorting----------------*/
 
@@ -87,6 +87,6 @@ std::list<Pair> createSortedPairs( const std::list<int>& lst );
 std::list<Pair> mergeSortPairs( const std::list<Pair>& pairs_vec );
 
 // Create a list of indexes (0-based) based on Jacobsthal numbers, similar to FJ algorithm
-std::list<std::size_t> createJacobsthalOrderList(std::size_t size);
+std::list<std::size_t> createJacobsthalOrderList( std::size_t size );
 
 #endif /* PMERGEME_HPP */
