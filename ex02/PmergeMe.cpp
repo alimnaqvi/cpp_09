@@ -142,11 +142,19 @@ std::vector<Pair> mergeSortPairs( const std::vector<Pair>& pairs_vec )
     return merge( vec_half_1, vec_half_2 );
 }
 
-// Create a vector of indexes based on Jacobsthal numbers, similar to FJ algorithm
+// Create a vector of indexes (0-based) based on Jacobsthal numbers, similar to FJ algorithm
 std::vector<std::size_t> createJacobsthalOrder(std::size_t size)
 {
-    std::vector<std::size_t> jacobsthal_vec{3, 5};
+    // We hardcode cases of smaller size for efficiency
+    if (size == 0)
+        return {};
+    if (size == 1)
+        return {0};
+    if (size == 2)
+        return {1, 0};
+
     // Create a sequence of Jacobsthal numbers
+    std::vector<std::size_t> jacobsthal_vec{3, 5};
     while (true)
     {
         std::size_t next {jacobsthal_vec[jacobsthal_vec.size() - 1] + (2 * jacobsthal_vec[jacobsthal_vec.size() - 2])};
@@ -183,6 +191,10 @@ std::vector<std::size_t> createJacobsthalOrder(std::size_t size)
         for (std::size_t i {size + 1}; i > prev; --i)
             order_vec.push_back(i);
     }
+
+    // (just to be sure) For smaller N, make sure no extra Jacobsthal numbers have been added
+    while (size < order_vec.size())
+        order_vec.pop_back();
 
     // Subtract 2 from each element (one for already inserted pair, another for 0 based index)
     for (auto& elem: order_vec)

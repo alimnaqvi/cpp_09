@@ -95,7 +95,7 @@ std::vector<Pair> createSortedPairs( const std::vector<int>& vec );
 // Use merge sort to sort pair_vec according to their larger (first) element
 std::vector<Pair> mergeSortPairs( const std::vector<Pair>& pairs_vec );
 
-// Create a vector of indexes based on Jacobsthal numbers, similar to FJ algorithm
+// Create a vector of indexes (0-based) based on Jacobsthal numbers, similar to FJ algorithm
 std::vector<std::size_t> createJacobsthalOrder(std::size_t size);
 
 #endif /* PMERGEME_HPP */
