@@ -307,9 +307,12 @@ std::list<Pair> createSortedPairs( const std::list<int>& lst )
 {
     std::list<Pair> pairs_list;
 
-    for ( auto it{ std::next( lst.begin() ) }; it != lst.end(); std::advance( it, 2 ) )
+    for ( size_t i{ 1 }; i < lst.size(); i += 2 )
     {
-        pairs_list.emplace_back( std::max( *( std::prev( it ) ), *( it ) ), std::min( *( std::prev( it ) ), *( it ) ) );
+        // std::list does not have operator[], so we use iterator to access the index
+        auto prev{ std::next( lst.begin(), i - 1 ) };
+        auto cur{ std::next( lst.begin(), i ) };
+        pairs_list.emplace_back( std::max( *prev, *cur ), std::min( *prev, *cur ) );
     }
 
     return pairs_list;
