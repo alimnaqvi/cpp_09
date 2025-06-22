@@ -16,3 +16,14 @@ Core concepts learned and applied:
   - Comparing efficiency of std::vector and std::list, especially trade-offs between random access and costly insertion
   - Random access iterators vs. forward/bidirectional iterators
   - Advancing iterators with operators vs. functions (e.g., it++ vs. std::advance(it, 1))
+
+## Learning Resources and References
+- [std::map](https://en.cppreference.com/w/cpp/container/map.html)
+- [std::stack](https://en.cppreference.com/w/cpp/container/stack.html)
+- [std::vector](https://en.cppreference.com/w/cpp/container/vector.html)
+- [std::list](https://en.cppreference.com/w/cpp/container/list.html)
+- [Algorithms library](https://cppreference.com/w/cpp/algorithm.html)
+- [Iterators and their usage](https://www.studyplan.dev/pro-cpp/iterators)
+- [On the Average Case of MergeInsertion](https://link.springer.com/article/10.1007/s00224-020-09987-4) (read section 2.1: Description of MergeInsertion)
+- [Merge Insertion Sort / Ford-Johnson Algorithm](https://github.com/decidedlyso/merge-insertion-sort)
+  - Note that the example used in this source is for sorting in descending order; but the same concepts apply to sorting in ascending order
