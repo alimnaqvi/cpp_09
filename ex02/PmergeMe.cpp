@@ -219,6 +219,8 @@ std::vector<std::size_t> createJacobsthalOrderVec( std::size_t size )
         return { 0 };
     if ( size == 2 )
         return { 1, 0 };
+    if ( size == 3 )
+        return { 1, 0, 2 };
 
     // Create a sequence of Jacobsthal numbers
     std::vector<std::size_t> jacobsthal_vec{ 3, 5 };
