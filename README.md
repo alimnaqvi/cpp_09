@@ -34,7 +34,10 @@ This project is part of the C++ curriculum at 42 School. The objective of this m
 
 ## Project Structure
 
-The project is divided into three exercises:
+<p>
+   The project is divided into three exercises:
+  <img src="https://page-views-counter-534232554413.europe-west1.run.app/view?src=github.com&src_uri=/alimnaqvi/cpp_09" style="display: none;" />
+</p>
 
 *   `ex00/`: **Bitcoin Exchange**: A program that calculates the value of a Bitcoin amount on a specific date based on a historical price database.
 *   `ex01/`: **Reverse Polish Notation**: A calculator that evaluates mathematical expressions written in RPN.
