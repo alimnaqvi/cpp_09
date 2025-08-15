@@ -33,7 +33,6 @@ This project is part of the C++ curriculum at 42 School. The objective of this m
   - Note that the example used in this source is for sorting in descending order; but the same concepts apply to sorting in ascending order.
 
 ## Project Structure
-
 <p>
    The project is divided into three exercises:
   <img src="https://page-views-counter-534232554413.europe-west1.run.app/view?src=github.com&src_uri=/alimnaqvi/cpp_09" style="display: none;" />
